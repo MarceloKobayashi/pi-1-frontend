@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login e Cadastro</title>
+    <link rel="stylesheet" href="css/loginCadastro.css">
 </head>
 <body>
     <div id="div-cadastro">
@@ -13,6 +14,13 @@
             <input type="email" id="cadastro-email" placeholder="Email" required>
             <input type="password" id="cadastro-senha" placeholder="Senha" required>
             <input type="text" id="cadastro-telefone" placeholder="Telefone" required>
+            
+            <select id="cadastro-tipo" required>
+                <option value="" disabled selected>Tipo</option>
+                <option value="comprador">Comprador</option>
+                <option value="vendedor">Vendedor</option>
+            </select>
+
             <button type="submit">Cadastrar</button>
         </form>
         <p>Já tem uma conta?</p>
