@@ -76,7 +76,7 @@ document.getElementById('loginForm').addEventListener("submit", async (event) =>
             alert('Login realizado com sucesso.');
             localStorage.setItem('token', data.access_token);
 
-            //window.location.href = 'home.html'
+            window.location.href = '../html/produtosCadastro.html'
         } else {
             alert(data.detail || 'Erro ao fazer login.');
         }
