@@ -1,0 +1,151 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap');
+
+body {
+    font-family: 'Roboto Condensed', sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f5f5f5;
+    min-height: 100vh;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+}
+
+h1 {
+    color: #333;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    margin: 0;
+}
+
+.btn-novo {
+    padding: 10px 15px;
+    background-color: #4CAF50;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 700;
+    transition: background-color 0.3s;
+    margin-right: 15px;
+}
+
+.btn-novo:hover {
+    background-color: #45a049;
+}
+
+#btn-logout {
+    padding: 10px 15px;
+    background-color: #2196F3;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 700;
+    transition: background-color 0.3s;
+}
+
+#btn-logout:hover {
+    background-color: #0b7dda;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.produtos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.produto-card {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.produto-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.produto-imagem {
+    height: 200px;
+    background-color: #eee;
+    background-size: cover;
+    background-position: center;
+    border-bottom: 1px solid #ddd;
+}
+
+.produto-info {
+    padding: 20px;
+}
+
+.produto-info h3 {
+    margin: 0 0 10px 0;
+    color: #333;
+    font-size: 18px;
+}
+
+.produto-info p {
+    color: #666;
+    margin: 0 0 15px 0;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.produto-preco {
+    font-weight: bold;
+    color: #2196F3;
+    font-size: 18px;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.produto-estoque {
+    display: inline-block;
+    padding: 5px 10px;
+    background: #4CAF50;
+    color: white;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+#loading {
+    text-align: center;
+    padding: 40px;
+    font-style: italic;
+    color: #666;
+    font-size: 16px;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .produtos-grid {
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    }
+    
+    header {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+    
+    .btn-novo, #btn-logout {
+        width: 100%;
+        margin: 5px 0;
+    }
+}
