@@ -20,6 +20,41 @@
         <div id="produtos-container" class="produtos-grid"></div>
     </div>
 
+    <dialog id="editar-produto-modal">
+        <div class="modal-content">
+            <h2>Editar Produto</h2>
+            <form id="editar-produto-form">
+                <input type="hidden" id="editar-id">
+                
+                <input type="text" id="editar-nome" placeholder="Nome do Produto" required>
+                <textarea id="editar-descricao" rows="3" placeholder="Descrição"></textarea>
+                <input type="number" id="editar-preco" placeholder="Preço (R$)" step="0.01" required>
+                <input type="number" id="editar-quantidade" placeholder="Quantidade em Estoque" required>
+    
+                <div class="form-group">
+                    <label for="categoria">Categoria</label>
+                    <select id="editar-categoria" required>
+                        <option value="">Selecione...</option>
+                    </select>
+                </div>
+    
+                <div class="form-group">
+                    <label for="imagens">Imagens do Produto</label>
+                    <div id="editar-imagens-container">
+                    </div>
+                    <button type="button" id="btn-adicionar-imagem-editar" class="secundario">
+                        + Adicionar Imagem
+                    </button>
+                </div>
+    
+                <div class="form-actions">
+                    <button type="button" id="cancelar-edicao">Cancelar</button>
+                    <button type="submit">Salvar Alterações</button>
+                </div>
+            </form>
+        </div>
+    </dialog>
+
     <script src="../../js/produtos/produtosListar.js"></script>
 </body>
 </html>

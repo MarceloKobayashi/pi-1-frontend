@@ -74,6 +74,8 @@ h1 {
     overflow: hidden;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
 }
 
 .produto-card:hover {
@@ -91,6 +93,9 @@ h1 {
 
 .produto-info {
     padding: 20px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 .produto-info h3 {
@@ -104,6 +109,7 @@ h1 {
     margin: 0 0 15px 0;
     font-size: 14px;
     line-height: 1.4;
+    flex-grow: 1;
 }
 
 .produto-preco {
@@ -122,6 +128,47 @@ h1 {
     border-radius: 4px;
     font-size: 12px;
     font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.produto-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: auto;
+}
+
+.btn-editar {
+    padding: 8px 12px;
+    background-color: #FFC107;
+    color: #333;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 14px;
+    transition: background-color 0.3s;
+    flex: 1;
+}
+
+.btn-editar:hover {
+    background-color: #FFA000;
+}
+
+.btn-deletar {
+    padding: 8px 12px;
+    background-color: #F44336;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 14px;
+    transition: background-color 0.3s;
+    flex: 1;
+}
+
+.btn-deletar:hover {
+    background-color: #D32F2F;
 }
 
 #loading {
@@ -130,6 +177,147 @@ h1 {
     font-style: italic;
     color: #666;
     font-size: 16px;
+}
+
+/* Estilos do Modal/Dialog */
+#editar-produto-modal {
+    border: none;
+    border-radius: 8px;
+    padding: 0;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+#editar-produto-modal::backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    padding: 25px;
+}
+
+.modal-content h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 22px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+#editar-produto-form input,
+#editar-produto-form textarea,
+#editar-produto-form select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+#editar-produto-form textarea {
+    min-height: 80px;
+    resize: vertical;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 700;
+    color: #555;
+}
+
+#editar-imagens-container {
+    margin-bottom: 15px;
+}
+
+.imagem-input-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.imagem-input-group input {
+    flex: 1;
+}
+
+.remover-imagem {
+    background-color: #F44336;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    width: 36px;
+    height: 36px;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s;
+}
+
+.remover-imagem:hover {
+    background-color: #D32F2F;
+}
+
+#btn-adicionar-imagem-editar {
+    padding: 8px 12px;
+    background-color: #e0e0e0;
+    color: #333;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 14px;
+    transition: background-color 0.3s;
+    width: 100%;
+}
+
+#btn-adicionar-imagem-editar:hover {
+    background-color: #bdbdbd;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.form-actions button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.form-actions button[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.form-actions button[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+#cancelar-edicao {
+    background-color: #757575;
+    color: white;
+}
+
+#cancelar-edicao:hover {
+    background-color: #616161;
 }
 
 /* Responsividade */
@@ -147,5 +335,13 @@ h1 {
     .btn-novo, #btn-logout {
         width: 100%;
         margin: 5px 0;
+    }
+    
+    .produto-actions {
+        flex-direction: column;
+    }
+    
+    #editar-produto-modal {
+        width: 95%;
     }
 }
