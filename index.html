@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+    <header>
+        <div class="logo">Minha Loja</div>
+        <div class="barra-pesquisa-container">
+            <input type="text" class="barra-pesquisa" placeholder="Pesquisar produtos...">
+            <select class="filtro-categoria">
+                <option value="">Todos</option>
+            </select>
+            <button class="btn-filtro">Filtrar</button>
+        </div>
+
+        <div class="header-buttons">
+            <a href="html/loginCadastro.html" class="btn-header">Login</a>
+            <button class="btn-header">Carrinho</button>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div id="loading">Carregando produtos...</div>
+        <div id="produtos-por-categoria"></div>
+    </main>
+
+    <script src="js/index.js"></script>
+</body>
+</html>
