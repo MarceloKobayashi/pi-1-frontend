@@ -153,4 +153,92 @@ document.addEventListener("DOMContentLoaded", async () => {
         //    adicionarAoCarrinho(produtoId);
       //  }
     //});
+
+    // Dialog de Produto
+    const dialogImagemPrincipal = document.getElementById('dialog-imagem-principal');
+    const miniaturasContainer = document.getElementById('miniaturas-container');
+
+    let produtoAtual = null;
+    let indiceImagemAtual = 0;
+
+    produtosContainer.addEventListener('click', (e) => {
+        const card = e.target.closest('.produto-card');
+        if (card) {
+            const produtoId = parseInt(card.querySelector('.btn-adicionar-carrinho').getAttribute('data-id'));
+        
+            produtoAtual = produtos.find(p => p.id === produtoId);
+            if (!produtoAtual) return;
+
+            indiceImagemAtual = 0;
+
+            document.getElementById('dialog-nome').textContent = produtoAtual.nome;
+            document.getElementById('dialog-vendedor').textContent = `Vendido por: ${produtoAtual.vendedor_nome}`;
+            document.getElementById('dialog-descricao').textContent = produtoAtual.descricao || "Sem descrição";
+            document.getElementById('dialog-preco').textContent = `R$ ${produtoAtual.preco.toFixed(2)}`;
+            document.getElementById('dialog-btn-carrinho').setAttribute('data-id', produtoAtual.id);
+
+            carregarImagensDialog();
+            
+            document.getElementById('produto-dialog').showModal();
+        }
+    });
+
+    function carregarImagensDialog() {
+        miniaturasContainer.innerHTML = '';
+        
+        if (!produtoAtual.imagens || produtoAtual.imagens.length === 0) {
+            dialogImagemPrincipal.src = 'https://via.placeholder.com/600x400?text=Sem+Imagem';
+            return;
+        }
+
+        dialogImagemPrincipal.src = produtoAtual.imagens[indiceImagemAtual].url_img;
+
+        produtoAtual.imagens.forEach((img, index) => {
+            const miniatura = document.createElement('img');
+            miniatura.src = img.url_img;
+            miniatura.alt = `Imagem ${index + 1} do Produto`;
+
+            if (index === indiceImagemAtual) {
+                miniatura.classList.add('ativo');
+            }
+
+            miniatura.addEventListener('click', () => {
+                indiceImagemAtual = index;
+                atualizarImagemDialog();
+            });
+
+            miniaturasContainer.appendChild(miniatura);
+        });
+    }
+
+    function atualizarImagemDialog() {
+        dialogImagemPrincipal.src = produtoAtual.imagens[indiceImagemAtual].url_img;
+                
+        const miniaturas = miniaturasContainer.querySelectorAll('img');
+        miniaturas.forEach((img, index) => {
+            if (index === indiceImagemAtual) {
+                img.classList.add('ativo');
+            } else {
+                img.classList.remove('ativo');
+            }
+        });
+    }
+
+    document.querySelector('.seta-imagem.anterior').addEventListener('click', () => {
+        if (produtoAtual.imagens && produtoAtual.imagens.length > 0) {
+            indiceImagemAtual = (indiceImagemAtual - 1 + produtoAtual.imagens.length) % produtoAtual.imagens.length;
+            atualizarImagemDialog();
+        }
+    });
+
+    document.querySelector('.seta-imagem.proximo').addEventListener('click', () => {
+        if (produtoAtual.imagens && produtoAtual.imagens.length > 0) {
+            indiceImagemAtual = (indiceImagemAtual + 1) % produtoAtual.imagens.length;
+            atualizarImagemDialog();
+        }
+    });
+
+    document.querySelector('.fechar-dialog').addEventListener('click', () => {
+        document.getElementById('produto-dialog').close();
+    });
 });

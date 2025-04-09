@@ -277,3 +277,233 @@ header {
     align-items: center;
     margin-top: 1rem;
 }
+
+/* Estilos para o dialog de detalhes do produto */
+.produto-dialog {
+    width: 90%;
+    max-width: 900px;
+    border: none;
+    border-radius: 8px;
+    padding: 0;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.produto-dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.dialog-container {
+    position: relative;
+    padding: 30px;
+    background-color: white;
+}
+
+.fechar-dialog {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 28px;
+    cursor: pointer;
+    color: #666;
+    transition: color 0.3s;
+    z-index: 10;
+}
+
+.fechar-dialog:hover {
+    color: #333;
+}
+
+.produto-detalhes {
+    display: flex;
+    gap: 30px;
+    margin-top: 20px;
+}
+
+.produto-imagens {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+#dialog-imagem-principal {
+    width: 100%;
+    height: 350px;
+    object-fit: contain;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    border: 1px solid #eee;
+}
+
+.navegacao-imagens {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 5px 0;
+}
+
+.miniaturas {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    flex: 1;
+    padding: 5px 0;
+}
+
+.miniaturas::-webkit-scrollbar {
+    height: 4px;
+}
+
+.miniaturas::-webkit-scrollbar-thumb {
+    background-color: #2196F3;
+    border-radius: 2px;
+}
+
+.miniaturas img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 4px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.2s;
+}
+
+.miniaturas img:hover {
+    transform: scale(1.05);
+}
+
+.miniaturas img.ativo {
+    border-color: #2196F3;
+}
+
+.seta-imagem {
+    background: #f0f0f0;
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-weight: bold;
+    color: #333;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.seta-imagem:hover {
+    background-color: #2196F3;
+    color: white;
+}
+
+.produto-info-dialog {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.produto-info-dialog h2 {
+    margin: 0;
+    font-size: 24px;
+    color: #333;
+    font-weight: 700;
+}
+
+.vendedor-info-dialog {
+    font-size: 14px;
+    color: #7f8c8d;
+    background-color: #f0f0f0;
+    padding: 5px 10px;
+    border-radius: 12px;
+    display: inline-block;
+    width: fit-content;
+}
+
+.produto-descricao-dialog {
+    flex-grow: 1;
+    margin: 0;
+    line-height: 1.6;
+    color: #555;
+    font-size: 15px;
+}
+
+.produto-preco-dialog {
+    font-size: 28px;
+    font-weight: bold;
+    color: #2196F3;
+    margin: 10px 0;
+}
+
+.btn-adicionar-carrinho-dialog {
+    padding: 12px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 16px;
+    transition: background-color 0.3s;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 10px;
+}
+
+.btn-adicionar-carrinho-dialog:hover {
+    background-color: #45a049;
+}
+
+/* Responsividade para o dialog */
+@media (max-width: 768px) {
+    .produto-dialog {
+        width: 95%;
+        max-width: none;
+    }
+    
+    .produto-detalhes {
+        flex-direction: column;
+    }
+    
+    #dialog-imagem-principal {
+        height: 250px;
+    }
+    
+    .produto-info-dialog {
+        margin-top: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .dialog-container {
+        padding: 20px 15px;
+    }
+    
+    .produto-dialog {
+        width: 100%;
+        border-radius: 0;
+    }
+    
+    #dialog-imagem-principal {
+        height: 200px;
+    }
+    
+    .produto-info-dialog h2 {
+        font-size: 20px;
+    }
+    
+    .produto-preco-dialog {
+        font-size: 24px;
+    }
+    
+    .btn-adicionar-carrinho-dialog {
+        padding: 10px 15px;
+        font-size: 14px;
+    }
+}

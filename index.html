@@ -28,6 +28,31 @@
         <div id="produtos-por-categoria"></div>
     </main>
 
+    <dialog id="produto-dialog" class="produto-dialog">
+        <div class="dialog-container">
+            <button class="fechar-dialog">X</button>
+
+            <div class="produto-detalhes">
+                <div class="produto-imagens">
+                    <img id="dialog-imagem-principal" src="" alt="Imagem do Produto">
+                    <div class="navegacao-imagens">
+                        <button class="seta-imagem anterior">&lt;</button>
+                        <div class="miniaturas" id="miniaturas-container"></div>
+                        <button class="seta-imagem proximo">&gt;</button>
+                    </div>
+                </div>
+
+                <div class="produto-info-dialog">
+                    <h2 id="dialog-nome"></h2>
+                    <span class="vendedor-info-dialog" id="dialog-vendedor"></span>
+                    <p class="produto-descricao-dialog" id="dialog-descricao"></p>
+                    <div class="produto-preco-dialog" id="dialog-preco"></div>
+                    <button class="btn-adicionar-carrinho-dialog" id="dialog-btn-carrinho">Adicionar ao Carrinho</button>
+                </div>             
+            </div>
+        </div>
+    </dialog>
+
     <script src="js/index.js"></script>
 </body>
 </html>
