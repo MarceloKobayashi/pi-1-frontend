@@ -103,6 +103,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     async function abrirDialog(produtoId, produtos) {
         const produto = produtos.find(p => p.id == produtoId);
+        console.log(produto);
 
         if (!produto) return;
 
@@ -114,8 +115,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         document.getElementById('editar-preco').value = produto.preco;
         document.getElementById('editar-quantidade').value = produto.qntd_estoque;
 
-        if (produto.categoria) {
-            document.getElementById('editar-categoria').value = produto.categoria.id;
+        if (produto.fk_produtos_categoria_id) {
+            document.getElementById('editar-categoria').value = produto.fk_produtos_categoria_id;
         }
 
         document.getElementById('editar-imagens-container').innerHTML = '';
@@ -268,7 +269,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             categorias.forEach(cate => {
                 const option = document.createElement('option');
                 option.value = cate.id;
-                option.textContent = cate.nome;
+                option.textContent = cate.nome.charAt(0).toUpperCase() + cate.nome.slice(1).toLowerCase();
 
                 select.appendChild(option);
             });

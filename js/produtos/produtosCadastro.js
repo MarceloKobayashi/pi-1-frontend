@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             categorias.forEach(cate => {
                 const option = document.createElement('option');
                 option.value = cate.id;
-                option.textContent = cate.nome;
+                option.textContent = cate.nome.charAt(0).toUpperCase() + cate.nome.slice(1).toLowerCase();
 
                 select.appendChild(option);
             });

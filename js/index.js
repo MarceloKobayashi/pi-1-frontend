@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             categorias.forEach(categoria => {
                 const option = document.createElement('option');
                 option.value = categoria.id;
-                option.textContent = categoria.nome;
+                option.textContent = categoria.nome.charAt(0).toUpperCase() + categoria.nome.slice(1).toLowerCase();
                 filtroCategoria.appendChild(option);
             });
         } catch (error) {
@@ -96,7 +96,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             const section = document.createElement('section');
             section.className = 'categoria-section';
             section.innerHTML = `
-                <h2 class="categoria-title">${data.nome}</h2>
+                <h2 class="categoria-title">${data.nome.charAt(0).toUpperCase() + data.nome.slice(1).toLowerCase()}</h2>
                 <div class="produtos-grid" id="categoria-${categoriaId}"></div>
             `;
 
@@ -176,6 +176,24 @@ document.addEventListener("DOMContentLoaded", async () => {
             document.getElementById('dialog-descricao').textContent = produtoAtual.descricao || "Sem descrição";
             document.getElementById('dialog-preco').textContent = `R$ ${produtoAtual.preco.toFixed(2)}`;
             document.getElementById('dialog-btn-carrinho').setAttribute('data-id', produtoAtual.id);
+
+            const estoqueAlerta = document.getElementById('estoque-alerta');
+            const estoqueEsgotado = document.getElementById('estoque-esgotado');
+
+            estoqueAlerta.style.display = 'none';
+            estoqueEsgotado.style.display = 'none';
+
+            if (produtoAtual.qntd_estoque === 0) {
+                estoqueEsgotado.style.display = 'block';
+                document.getElementById('dialog-btn-carrinho').disabled = true;
+                document.getElementById('dialog-btn-carrinho').style.backgroundColor = '#9e9e9e';
+            } else if (produtoAtual.qntd_estoque <= 5) {
+                estoqueAlerta.textContent = `Últimas unidades! Apenas ${produtoAtual.qntd_estoque} em estoque.`;
+                estoqueAlerta.style.display = 'block';
+                document.getElementById('dialog-btn-carrinho').disabled = false;
+            } else {
+                document.getElementById('dialog-btn-carrinho').disabled = false;
+            }
 
             carregarImagensDialog();
             
