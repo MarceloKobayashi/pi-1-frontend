@@ -1,4 +1,9 @@
 document.addEventListener("DOMContentLoaded", async () => {
+    const filtroCategoria = document.querySelector('.filtro-categoria');
+    const barraPesquisa = document.querySelector(".barra-pesquisa");
+
+    let categorias = [];
+
     const token = localStorage.getItem("token");
     if(!token) {
         window.location.href = '../loginCadastro.html';
@@ -27,7 +32,20 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             await carregarCategorias();
     
-            const response = await fetch('http://localhost:8000/produtos/listar-meus-produtos', {
+            let url = 'http://localhost:8000/produtos/listar-meus-produtos';
+
+            const categoriaId = filtroCategoria.value;
+            const termoPesquisa = barraPesquisa.value.trim();
+
+            const params = new URLSearchParams();
+            if (categoriaId) params.append('categoria_id', categoriaId);
+            if (termoPesquisa) params.append('nome', termoPesquisa);
+
+            if (params.toString()) {
+                url += `?${params.toString()}`;
+            }
+
+            const response = await fetch(url, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -49,6 +67,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         const container = document.getElementById('produtos-container');
         const loading = document.getElementById('loading');
 
+        container.innerHTML = '';
+        loading.style.display = 'block';
+
         if (produtos.length === 0) {
             loading.innerHTML = '<p>Nenhum produto cadastrado ainda. <a href="produtosCadastro.html">Cadastre seu primeiro produto.</a></p>';
             return;
@@ -56,30 +77,57 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         loading.style.display = 'none';
 
+        const produtosPorCategoria = {};
         produtos.forEach(produto => {
-            const card = document.createElement('div');
-            card.className = 'produto-card';
+            const categoriaId = produto.fk_produtos_categoria_id || 'outros';
+            const categoriaNome = categorias.find(e => e.id === categoriaId)?.nome || "Outros";
 
-            const imagemUrl = produto.imagens && produto.imagens.length > 0
-                ?produto.imagens[0].url_img
-                : 'https://via.placeholder.com/300x200?text=Sem+Imagem';
+            if(!produtosPorCategoria[categoriaId]) {
+                produtosPorCategoria[categoriaId] = {
+                    nome: categoriaNome,
+                    produtos:[]
+                };
+            }
 
-            card.innerHTML = `
-                <div class="produto-imagem" style="background-image: url('${imagemUrl}')"></div>
-                <div class="produto-info">
-                    <h3>${produto.nome}</h3>
-                    <p>${produto.descricao || "Sem descrição"}</p>
-                    <div class="produto-preco">R$ ${produto.preco.toFixed(2)}</div>
-                    <span class="produto-estoque">Estoque: ${produto.qntd_estoque}</span>
-                    <div class="produto-actions">
-                        <button class="btn-editar" data-id="${produto.id}">Editar</button>
-                        <button class="btn-deletar" data-id="${produto.id}">Deletar</button>
-                    </div>
-                </div>
+            produtosPorCategoria[categoriaId].produtos.push(produto);
+        });
+
+        for (const [categoriaId, data] of Object.entries(produtosPorCategoria)) {
+            const section = document.createElement('section');
+            section.className = 'categoria-section';
+            section.innerHTML = `
+                <h2 class="categoria-title">${data.nome.charAt(0).toUpperCase() + data.nome.slice(1).toLowerCase()}</h2>
+                <div class="produtos-grid" id="categoria-${categoriaId}"></div>
             `;
 
-            container.appendChild(card);
-        });
+            const grid = section.querySelector(`#categoria-${categoriaId}`);
+            
+            data.produtos.forEach(produto => {
+                const card = document.createElement('div');
+                card.className = 'produto-card';
+                
+                const imagemUrl = produto.imagens && produto.imagens.length > 0
+                    ?produto.imagens[0].url_img
+                    : 'https://via.placeholder.com/300x200?text=Sem+Imagem';
+                
+                card.innerHTML = `
+                    <div class="produto-imagem" style="background-image: url('${imagemUrl}')"></div>
+                    <div class="produto-info">
+                        <h3>${produto.nome}</h3>
+                        <p>${produto.descricao || "Sem descrição"}</p>
+                        <div class="produto-preco">R$ ${produto.preco.toFixed(2)}</div>
+                        <span class="produto-estoque">Estoque: ${produto.qntd_estoque}</span>
+                        <div class="produto-actions">
+                            <button class="btn-editar" data-id="${produto.id}">Editar</button>
+                            <button class="btn-deletar" data-id="${produto.id}">Deletar</button>
+                        </div>
+                    </div>
+                `;
+            
+                grid.appendChild(card);
+            });
+        container.appendChild(section);
+    }
 
         document.querySelectorAll('.btn-editar').forEach(btn => {
             btn.addEventListener('click', (e) => {
@@ -254,25 +302,35 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     async function carregarCategorias() {
         try {
+            if (categorias.length > 0) return categorias;
+
             const response = await fetch('http://localhost:8000/produtos/categorias');
             if (!response.ok) {
                 throw new Error("Falha ao carregar categorias.");
             }
+    
+            categorias = await response.json();
 
-            const categorias = await response.json();
-            const select = document.getElementById('editar-categoria');
-
-            while (select.options.length > 1) {
-                select.remove(1);
+            const selectEditar = document.getElementById('editar-categoria');
+            const selectFiltro = document.querySelector('.filtro-categoria');
+            
+            if (selectEditar.options.length <= 1) {
+                categorias.forEach(cate => {
+                    const optionEditar = document.createElement('option');
+                    optionEditar.value = cate.id;
+                    optionEditar.textContent = cate.nome.charAt(0).toUpperCase() + cate.nome.slice(1).toLowerCase();
+                    selectEditar.appendChild(optionEditar);
+                });
             }
 
-            categorias.forEach(cate => {
-                const option = document.createElement('option');
-                option.value = cate.id;
-                option.textContent = cate.nome.charAt(0).toUpperCase() + cate.nome.slice(1).toLowerCase();
-
-                select.appendChild(option);
-            });
+            if (selectFiltro.options.length <= 1) {
+                categorias.forEach(cate => {
+                    const optionFiltro = document.createElement('option');
+                    optionFiltro.value = cate.id;
+                    optionFiltro.textContent = cate.nome.charAt(0).toUpperCase() + cate.nome.slice(1).toLowerCase();
+                    selectFiltro.appendChild(optionFiltro);
+                });
+            }
 
             return categorias;
         } catch(error) {
@@ -280,5 +338,20 @@ document.addEventListener("DOMContentLoaded", async () => {
             alert("Erro ao carregar categorias. Tente recarregar a página.");
         }
     }
+
+    document.querySelector('.btn-filtro').addEventListener('click', async() => {
+        const categoriaEscolhida = filtroCategoria.value;
+        await carregarProdutos();
+
+        if (categoriaEscolhida) {
+            filtroCategoria.value = categoriaEscolhida;
+        }
+    });
+
+    document.querySelector('.barra-pesquisa').addEventListener('keypress', async(e) => {
+        if (e.key == 'Enter') {
+            await carregarProdutos();
+        }
+    });
 
 });

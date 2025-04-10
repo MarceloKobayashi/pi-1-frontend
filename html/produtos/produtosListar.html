@@ -8,7 +8,16 @@
 </head>
 <body>
     <header>
+        <a href="../../index.html" class="logo">Home</a>
         <h1>Meus Produtos</h1>
+        <div class="barra-pesquisa-container">
+            <input type="text" class="barra-pesquisa" placeholder="Pesquisar produtos...">
+            <select class="filtro-categoria">
+                <option value="">Todos</option>
+            </select>
+            <button class="btn-filtro">Filtrar</button>
+        </div>
+
         <div>
             <a href="produtosCadastro.html" class="btn-cadastro">Novo Produto</a>
             <button id="btn-logout">Sair</button>
@@ -26,10 +35,25 @@
             <form id="editar-produto-form">
                 <input type="hidden" id="editar-id">
                 
-                <input type="text" id="editar-nome" placeholder="Nome do Produto" required>
-                <textarea id="editar-descricao" rows="3" placeholder="Descrição"></textarea>
-                <input type="number" id="editar-preco" placeholder="Preço (R$)" step="0.01" required>
-                <input type="number" id="editar-quantidade" placeholder="Quantidade em Estoque" required>
+                <div class="form-group">
+                    <label for="editar-nome">Nome do Produto</label>
+                    <input type="text" id="editar-nome" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="editar-descricao">Descrição</label>
+                    <textarea id="editar-descricao" rows="3"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="editar-preco">Preço (R$)</label>
+                    <input type="number" id="editar-preco" step="0.01" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="editar-quantidade">Quantidade em Estoque</label>
+                    <input type="number" id="editar-quantidade" required>
+                </div>
     
                 <div class="form-group">
                     <label for="categoria">Categoria</label>
