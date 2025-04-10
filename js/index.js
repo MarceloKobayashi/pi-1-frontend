@@ -12,6 +12,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     await init();
 
     async function init() {
+        atualizarBotaoLogin();
+
         try {
             await Promise.all([carregarCategorias(), carregarProdutos()]);
             renderizarProdutos();
@@ -259,4 +261,47 @@ document.addEventListener("DOMContentLoaded", async () => {
     document.querySelector('.fechar-dialog').addEventListener('click', () => {
         document.getElementById('produto-dialog').close();
     });
+
+    function atualizarBotaoLogin() {
+        const loginButton = document.getElementById('login-button');
+        const token = localStorage.getItem('token');
+
+        if (token) {
+            try {
+                const payload = JSON.parse(atob(token.split('.')[1]));
+                const nomeUsuario = payload.nome.split(' ')[0];
+
+                console.log(payload);
+
+                loginButton.textContent = `Olá, ${nomeUsuario.split('.')[0]}`;
+                loginButton.href = '#';
+                loginButton.title = 'Sair';
+
+                loginButton.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    localStorage.removeItem('token');
+                    window.location.reload();
+                });
+
+                loginButton.addEventListener('mouseover', () => {
+                    loginButton.textContent = 'Sair';
+                });
+
+                loginButton.addEventListener('mouseout', () => {
+                    loginButton.textContent = `Olá, ${nomeUsuario.split(' ')[0]}`;
+                });
+            } catch(error) {
+                console.error("Erro ao decodificar token: ", error);
+
+                loginButton.textContent = 'Login';
+                loginButton.href = 'html/loginCadastro.html';
+                loginButton.title = '';
+            }
+        } else {
+            loginButton.textContent = 'Login';
+            loginButton.href = 'html/loginCadastro.html';
+            loginButton.title = '';
+        }
+    }
+
 });
