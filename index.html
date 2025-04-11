@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
     <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 </head>
 <body>
     <header>
@@ -13,7 +14,10 @@
             <a href="html/usuario/endereco.html" class="btn-endereco">Endereço</a>
         </div>
         <div class="barra-pesquisa-container">
-            <input type="text" class="barra-pesquisa" placeholder="Pesquisar produtos...">
+            <div class="barra-pesquisa-wrapper">
+                <input type="text" class="barra-pesquisa" placeholder="Pesquisar produtos...">
+                <i class="bi bi-search lupa-icon"></i>
+            </div>
             <select class="filtro-categoria">
                 <option value="">Todos</option>
             </select>
@@ -22,7 +26,10 @@
 
         <div class="header-buttons">
             <a href="html/loginCadastro.html" class="btn-header" id="login-button">Login</a>
-            <button class="btn-header">Carrinho</button>
+            <a href="#" class="btn-header">
+                <i class="bi bi-cart3"></i>
+            </a>
+            
         </div>
     </header>
 

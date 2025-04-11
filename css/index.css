@@ -33,13 +33,27 @@ header {
     margin: 0 20px;
 }
 
+.barra-pesquisa-wrapper {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
 .barra-pesquisa {
-    flex: 1;
-    padding: 10px 15px;
-    border: 1px solid #ddd;
+    width: 100%;
+    padding: 8px 35px 8px 10px; /* espaço à direita para a lupa */
+    box-sizing: border-box;
+    border: 1px solid #ccc;
     border-radius: 4px;
-    font-family: 'Roboto Condensed', sans-serif;
-    font-size: 14px;
+}
+
+.lupa-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #666;
+    pointer-events: none;
 }
 
 .filtro-categoria {
