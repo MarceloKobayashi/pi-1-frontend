@@ -354,4 +354,23 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     });
 
+    document.getElementById('btn-ajuda').addEventListener('click', () => {
+        document.getElementById('help-dialog').showModal();
+    });
+
+    document.getElementById('btn-fechar-dialog').addEventListener('click', () => {
+        document.getElementById('help-dialog').close();
+    });
+
+    document.getElementById('help-dialog').addEventListener('click', (e) => {
+        const dialogDimensions = document.getElementById('help-dialog').getBoundingClientRect();
+        if (
+            e.clientX < dialogDimensions.left ||
+            e.clientX > dialogDimensions.right ||
+            e.clientY < dialogDimensions.top ||
+            e.clientY > dialogDimensions.bottom
+        ) {
+            document.getElementById('help-dialog').close()
+        }
+    });
 });

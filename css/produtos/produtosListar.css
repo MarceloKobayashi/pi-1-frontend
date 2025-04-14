@@ -451,3 +451,104 @@ h1 {
         font-size: 13px;
     }
 }
+
+
+/* Estilo do botão de ajuda flutuante */
+.floating-help-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    z-index: 1000;
+}
+
+.floating-help-button:hover {
+    background-color: #45a049;
+}
+
+/* Estilo do diálogo de ajuda */
+#help-dialog {
+    border: none;
+    border-radius: 8px;
+    padding: 20px;
+    max-width: 500px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+#help-dialog::backdrop {
+    background-color: rgba(0,0,0,0.5);
+}
+
+#help-dialog h2 {
+    margin-top: 0;
+    color: #333;
+}
+
+#help-dialog ol {
+    padding-left: 20px;
+}
+
+#help-dialog li {
+    margin-bottom: 10px;
+}
+
+#help-dialog p {
+    font-style: italic;
+    color: #555;
+}
+
+#btn-fechar-dialog {
+    margin-top: 15px;
+    padding: 8px 16px;
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#btn-fechar-dialog:hover {
+    background-color: #FF999A;
+}
+
+.dialog-content {
+    display: flex;
+    gap: 20px;
+}
+
+.text-content {
+    flex: 1;
+}
+
+.image-content {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.image-content img {
+    max-width: 100%;
+    max-height: 300px;
+    border-radius: 4px;
+    object-fit: contain;
+}
+
+/* Ajuste para mobile */
+@media (max-width: 768px) {
+    .dialog-content {
+        flex-direction: column;
+    }
+    
+    .image-content img {
+        max-height: 200px;
+    }
+}
