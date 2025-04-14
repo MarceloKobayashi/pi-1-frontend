@@ -1,0 +1,370 @@
+/* Estilos base */
+* {
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #f5f5f5;
+    color: #333;
+    min-height: 100vh;
+}
+
+header {
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+#btn-novo-endereco {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#btn-novo-endereco:hover {
+    background-color: #45a049;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.header-links {
+    display: flex;
+    gap: 30px;
+    flex: 1;
+    justify-content: center;
+}
+
+.header-link {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    font-size: 16px;
+    padding: 8px 0;
+    position: relative;
+    transition: color 0.3s;
+}
+
+.header-link:hover {
+    color: #2196F3;
+}
+
+.header-link.active {
+    color: #2196F3;
+    font-weight: 600;
+}
+
+.header-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #2196F3;
+}
+
+.primary-btn {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-right: auto;
+    margin-left: 30px;
+}
+
+.primary-btn:hover {
+    background-color: #45a049;
+}
+
+.logout-btn {
+    padding: 10px 20px;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.logout-btn:hover {
+    background-color: #d32f2f;
+}
+
+/* Estilo da lista de endereços */
+.enderecos-container {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    margin: 30px auto;
+    padding: 30px;
+    max-width: 800px;
+}
+
+.enderecos-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+    color: #333;
+}
+
+.endereco-card {
+    display: flex;
+    padding: 20px 0;
+    border-bottom: 1px solid #eee;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.endereco-principal {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 4px;
+    border-left: 4px solid #2196F3;
+}
+
+.endereco-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.endereco-rua {
+    font-size: 18px;
+    font-weight: 500;
+    color: #333;
+}
+
+.endereco-complemento {
+    color: #666;
+    font-size: 14px;
+}
+
+.endereco-cidade {
+    display: flex;
+    gap: 10px;
+    color: #555;
+}
+
+.endereco-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.action-btn {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.edit-btn {
+    background-color: #2196F3;
+    color: white;
+}
+
+.edit-btn:hover {
+    background-color: #0b7dda;
+}
+
+.delete-btn {
+    background-color: #f44336;
+    color: white;
+}
+
+.delete-btn:hover {
+    background-color: #d32f2f;
+}
+
+.set-primary-btn {
+    background-color: #f8f9fa;
+    color: #333;
+    border: 1px solid #ddd;
+}
+
+.set-primary-btn:hover {
+    background-color: #e9ecef;
+}
+
+.empty-message {
+    text-align: center;
+    padding: 40px 0;
+    color: #666;
+    font-size: 16px;
+}
+
+.loading {
+    text-align: center;
+    padding: 40px 0;
+    color: #666;
+}
+
+
+/* Estilo base do dialog */
+#endereco-modal {
+    border: none;
+    border-radius: 8px;
+    padding: 30px;
+    width: 90%;
+    max-width: 400px;
+    background: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-family: 'Roboto Condensed', sans-serif;
+
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    margin: 0;
+}
+
+#endereco-modal::backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Cabeçalho do dialog */
+#endereco-modal h2 {
+    color: #333;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    margin-top: 0;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 1.5rem;
+}
+
+/* Formulário dentro do dialog */
+#form-endereco {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Grupos de formulário */
+.form-group {
+    margin-bottom: 10px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 700;
+    color: #555;
+}
+
+/* Linhas com campos lado a lado */
+.form-row {
+    display: flex;
+    gap: 15px;
+}
+
+.form-row .form-group {
+    flex: 1;
+}
+
+/* Campos de entrada */
+#endereco-modal input,
+#endereco-modal select {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    font-family: 'Roboto Condensed', sans-serif;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Botões do formulário */
+.form-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+#btn-cancelar {
+    padding: 12px;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 700;
+    transition: background-color 0.3s;
+}
+
+#btn-cancelar:hover {
+    background-color: #d32f2f;
+}
+
+#form-endereco button[type="submit"] {
+    padding: 12px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 700;
+    transition: background-color 0.3s;
+}
+
+#form-endereco button[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+/* Responsividade */
+@media (max-width: 480px) {
+    #endereco-modal {
+        padding: 20px;
+        width: 95%;
+    }
+    
+    .form-row {
+        flex-direction: column;
+        gap: 0;
+    }
+    
+    .form-buttons {
+        flex-direction: column;
+    }
+    
+    .form-buttons button {
+        width: 100%;
+    }
+}
