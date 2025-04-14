@@ -5,6 +5,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     const produtosContainer = document.getElementById("produtos-por-categoria");
     const loading = document.getElementById("loading");
     const btnCarrinho = document.querySelector(".btn-header:last-child");
+    const btnAdicionarCarrinho = document.getElementById("dialog-btn-carrinho");
+    const historicoBusca = document.getElementById("historico-busca");
+    const historicoItens = document.getElementById("historico-itens");
+    const limparHistorico = document.getElementById("limpar-historico");
 
     let produtos = [];
     let categorias = [];
@@ -140,21 +144,25 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     barraPesquisa.addEventListener('keypress', async(e) => {
         if (e.key == 'Enter') {
+            const termo = barraPesquisa.value.trim();
+            if (termo) {
+                let historico = JSON.parse(localStorage.getItem('historicoBusca')) || [];
+
+                historico = historico.filter(item => item.toLowerCase() !== termo.toLowerCase());
+                historico.unshift(termo);
+
+                if (historico.length > 5) {
+                    historico.historico.slice(0, 5);
+                }
+                localStorage.setItem('historicoBusca', JSON.stringify(historico));
+            }
+
             await carregarProdutos();
             renderizarProdutos();
+        
+            historicoBusca.style.display = 'none';
         }
     });
-
-    btnCarrinho.addEventListener('click', () => {
-        alert("Ir para carrinho");
-    });
-
-    //produtosContainer.addEventListener('click', (e) => {
-        //if (e.target.classList.contains('btn-adicionar-carrinho')) {
-          //  const produtoId = e.target.getAttribute('data-id');
-        //    adicionarAoCarrinho(produtoId);
-      //  }
-    //});
 
     // Dialog de Produto
     const dialogImagemPrincipal = document.getElementById('dialog-imagem-principal');
@@ -304,4 +312,82 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     }
 
+    btnAdicionarCarrinho.addEventListener('click', async () => {
+        try {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                alert("Faça login para adicionar ao produto.")
+                return;
+            }
+
+            const response = await fetch('http://localhost:8000/carrinho/adicionar', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    produto_id: produtoAtual.id,
+                    quantidade: 1
+                })
+            });
+
+            if (!response.ok) {
+                const error = await response.json();
+                throw new Error(error.detail || 'Erro ao adicionar ao carrinho.');
+            }
+
+            alert("Item adicionado ao carrinho");
+            return await response.json();
+        } catch (error) {
+            console.error("Erro: ", error);
+            alert(error.message);
+        }
+    });
+    
+    function renderizarHistorico() {
+        const historico = JSON.parse(localStorage.getItem('historicoBusca')) || [];
+        historicoItens.innerHTML = '';
+        
+        if (historico.length === 0) {
+            historicoItens.innerHTML = '<li class="sem-historico">Nenhum histórico de busca</li>';
+            return;
+        }
+        
+        historico.forEach(termo => {
+            const li = document.createElement("li");
+            li.textContent = termo;
+            li.addEventListener("click", () => {
+                barraPesquisa.value = termo;
+                historicoBusca.style.display = 'none';
+                barraPesquisa.dispatchEvent(new KeyboardEvent('keypress', {key: 'Enter'}));
+            });
+            
+            historicoItens.appendChild(li);
+        });
+    }
+    
+    barraPesquisa.addEventListener("focus", () => {
+        renderizarHistorico();
+        historicoBusca.style.display = 'block';
+    });
+    
+    barraPesquisa.addEventListener("blur", () => {
+        setTimeout(() => {
+            historicoBusca.style.display = 'none';
+        }, 100);
+    });
+    
+    limparHistorico.addEventListener('click', (e) => {
+        e.stopPropagation();
+        localStorage.removeItem('historicoBusca');
+        renderizarHistorico();
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!barraPesquisa.contains(e.target) && !historicoBusca.contains(e.target)) {
+            historicoBusca.style.display = 'none'
+        }
+    });
 });
+

@@ -18,6 +18,15 @@
                 <input type="text" class="barra-pesquisa" placeholder="Pesquisar produtos...">
                 <i class="bi bi-search lupa-icon"></i>
             </div>
+
+            <div class="historico-busca" id="historico-busca" style="display: none;">
+                <div class="historico-header">
+                    <span>Histórico de buscas</span>
+                    <button id="limpar-historico">Limpar</button>
+                </div>
+                <ul class="historico-itens" id="historico-itens"></ul>
+            </div>
+
             <select class="filtro-categoria">
                 <option value="">Todos</option>
             </select>
@@ -26,7 +35,7 @@
 
         <div class="header-buttons">
             <a href="html/loginCadastro.html" class="btn-header" id="login-button">Login</a>
-            <a href="#" class="btn-header">
+            <a href="/html/carrinho.html" class="btn-header">
                 <i class="bi bi-cart3"></i>
             </a>
             
