@@ -293,10 +293,14 @@ document.addEventListener("DOMContentLoaded", async () => {
 
                 loginButton.addEventListener('mouseover', () => {
                     loginButton.textContent = 'Sair';
+                    loginButton.style.backgroundColor = '#ff4444';
+                    loginButton.style.color = '#000000';
                 });
 
                 loginButton.addEventListener('mouseout', () => {
                     loginButton.textContent = `Olá, ${nomeUsuario.split(' ')[0]}`;
+                    loginButton.style.backgroundColor = '#4CAF50';
+                    loginButton.style.color = '#ffffff';
                 });
             } catch(error) {
                 console.error("Erro ao decodificar token: ", error);

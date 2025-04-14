@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             const payload = JSON.parse(atob(token.split('.')[1]));
             if (payload.tipo !== 'vendedor') {
-                window.location.href = '../loginCadastro.html';
+                window.location.href = '../../index.html';
                 return;
             }
 
