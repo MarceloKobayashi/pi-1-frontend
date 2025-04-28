@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         try {
             if (!token) {
                 alert("Faça login para ter/acessar seu carrinho.");
-                window.location.href = '/loginCadastro.html';
+                window.location.href = 'loginCadastro.html';
                 return;
             }
 

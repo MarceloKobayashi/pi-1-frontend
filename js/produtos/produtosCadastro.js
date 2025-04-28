@@ -15,11 +15,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     await carregarCategorias();
 
-    document.getElementById('btn-logout').addEventListener('click', () => {
-        localStorage.removeItem('token');
-        window.location.href = '../loginCadastro.html';
-    });
-
     adicionarCampoImagem();
 
     document.getElementById('btn-adicionar-imagem').addEventListener("click", adicionarCampoImagem);

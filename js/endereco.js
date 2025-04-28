@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const token = localStorage.getItem('token');
     if (!token) {
+        alert('Faça login para cadastrar seu endereço.');
         window.location.href = 'loginCadastro.html';
         return;
     }
