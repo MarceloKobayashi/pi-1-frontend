@@ -599,3 +599,33 @@ header {
 .historico-itens li:hover {
     background-color: #f5f5f5;
 }
+
+.quantidade-control {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 15px 0;
+}
+
+.quantidade-btn {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid #ccc;
+    background-color: #f8f8f8;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.quantidade-btn:hover {
+    background-color: #e0e0e0;
+}
+
+#quantidade-value {
+    min-width: 30px;
+    text-align: center;
+    font-weight: bold;
+}

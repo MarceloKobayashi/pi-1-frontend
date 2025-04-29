@@ -171,6 +171,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     let produtoAtual = null;
     let indiceImagemAtual = 0;
 
+    function atualizarPrecoTotal() {
+        const quantidade = parseInt(document.getElementById("quantidade-value").textContent);
+        const precoUnitario = produtoAtual.preco;
+        const precoTotal = quantidade * precoUnitario;
+
+        document.getElementById('dialog-preco').textContent = `R$ ${precoTotal.toFixed(2).replace('.', ',')}`;
+    }
+
     produtosContainer.addEventListener('click', (e) => {
         const card = e.target.closest('.produto-card');
         if (card) {
@@ -187,6 +195,8 @@ document.addEventListener("DOMContentLoaded", async () => {
             document.getElementById('dialog-preco').textContent = `R$ ${produtoAtual.preco.toFixed(2)}`;
             document.getElementById('dialog-btn-carrinho').setAttribute('data-id', produtoAtual.id);
 
+            document.getElementById("quantidade-value").textContent = '1';
+            
             const estoqueAlerta = document.getElementById('estoque-alerta');
             const estoqueEsgotado = document.getElementById('estoque-esgotado');
 
@@ -204,10 +214,35 @@ document.addEventListener("DOMContentLoaded", async () => {
             } else {
                 document.getElementById('dialog-btn-carrinho').disabled = false;
             }
-
+            
+            atualizarPrecoTotal();
             carregarImagensDialog();
             
             document.getElementById('produto-dialog').showModal();
+        }
+    });
+
+    document.getElementById('decrementar').addEventListener('click', () => {
+        const quantidadeElement = document.getElementById('quantidade-value');
+        let quantidade = parseInt(quantidadeElement.textContent);
+
+        if (quantidade > 1) {
+            quantidade--;
+            quantidadeElement.textContent = quantidade;
+            atualizarPrecoTotal();
+        }
+    });
+
+    document.getElementById('incrementar').addEventListener('click', () => {
+        const quantidadeElement = document.getElementById('quantidade-value');
+        let quantidade = parseInt(quantidadeElement.textContent);
+
+        if (quantidade < produtoAtual.qntd_estoque) {
+            quantidade++;
+            quantidadeElement.textContent = quantidade;
+            atualizarPrecoTotal();
+        } else {
+            alert(`Não há mais estoque disponível. Máximo: ${produtoAtual.qntd_estoque}`);
         }
     });
 
@@ -324,6 +359,8 @@ document.addEventListener("DOMContentLoaded", async () => {
                 return;
             }
 
+        const quantidade = parseInt(document.getElementById('quantidade-value').textContent);
+
             const response = await fetch('http://localhost:8000/carrinho/adicionar', {
                 method: 'POST',
                 headers: {
@@ -332,7 +369,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 },
                 body: JSON.stringify({
                     produto_id: produtoAtual.id,
-                    quantidade: 1
+                    quantidade: quantidade
                 })
             });
 
