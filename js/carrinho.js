@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     await carregarCarrinho();
 
-    window.atualizarQuandidade = atualizarQuantidade;
+    window.atualizarQuantidade = atualizarQuantidade;
     window.removerItem = removerItem;
 
     async function carregarCarrinho() {
@@ -73,7 +73,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     <div class="item-preco">R$ ${item.produto_preco.toFixed(2)}</div>
                     <div class="item-quantidade">
                         <button class="quantidade-btn" onclick="atualizarQuantidade(${item.produto_id}, ${item.quantidade - 1})">-</button>
-                        <input type="text" class="quantidade-input" value="${item.quantidade}" readonly>
+                        <input type="text" class="quantidade-input" value="${item.quantidade}" data-id="${item.produto_id}" readonly>
                         <button class="quantidade-btn" onclick="atualizarQuantidade(${item.produto_id}, ${item.quantidade + 1})">+</button>
                     </div>
                     <div class="remover-item" onclick="removerItem(${item.produto_id})">Remover</div>
@@ -86,6 +86,11 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     async function atualizarQuantidade(produtoId, novaQuantidade) {
         try {
+            if (novaQuantidade < 1) {
+                removerItem(produtoId);
+                return;
+            }
+
             const token = localStorage.getItem("token");
             if (!token) {
                 alert("Faça login para modificar seu carrinho.");
@@ -93,7 +98,10 @@ document.addEventListener("DOMContentLoaded", async () => {
                 return;
             }
 
-            if (novaQuantidade < 1) {
+            const inputElement = document.querySelector(`.quantidade-input[data-id="${produtoId}"]`);
+            const quantidadeAtual = parseInt(inputElement.value);
+
+            if (quantidadeAtual < 1) {
                 removerItem(produtoId);
                 return;
             }
