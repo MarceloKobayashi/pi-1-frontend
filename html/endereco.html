@@ -68,6 +68,56 @@
         </form>
     </dialog>
 
+    <dialog id="editar-endereco-modal" class="edit-modal">
+        <form id="form-editar-endereco">
+            <h2>Editar Endereço</h2>
+            
+            <input type="hidden" id="editar-id">
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="editar-cep">CEP</label>
+                    <input type="text" id="editar-cep" required>
+                </div>
+                <div class="form-group">
+                    <label for="editar-numero">Número</label>
+                    <input type="text" id="editar-numero" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="editar-logradouro">Logradouro</label>
+                <input type="text" id="editar-logradouro" required>
+            </div>
+
+            <div class="form-group">
+                <label for="editar-complemento">Complemento</label>
+                <input type="text" id="editar-complemento">
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="editar-cidade">Cidade</label>
+                    <input type="text" id="editar-cidade" required>
+                </div>
+                <div class="form-group">
+                    <label for="editar-estado">Estado</label>
+                    <select id="editar-estado" required>
+                        <option value="">Selecione</option>
+                        <option value="DF">Distrito Federal</option>
+                        <option value="RJ">Rio de Janeiro</option>
+                        <option value="SP">São Paulo</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-buttons">
+                <button type="button" id="btn-cancelar-edicao" class="secundario">Cancelar</button>
+                <button type="submit" id="editar-endereco-form" class="primary">Salvar Alterações</button>
+            </div>
+        </form>
+    </dialog>
+
     <script src="../js/endereco.js"></script>
 </body>
 </html>

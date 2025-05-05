@@ -234,7 +234,8 @@ header {
 
 
 /* Estilo base do dialog */
-#endereco-modal {
+#endereco-modal,
+#editar-endereco-modal {
     border: none;
     border-radius: 8px;
     padding: 30px;
@@ -252,12 +253,14 @@ header {
     margin: 0;
 }
 
-#endereco-modal::backdrop {
+#endereco-modal::backdrop,
+#editar-endereco-modal::backdrop {
     background-color: rgba(0, 0, 0, 0.5);
 }
 
 /* Cabeçalho do dialog */
-#endereco-modal h2 {
+#endereco-modal h2,
+#editar-endereco-modal h2 {
     color: #333;
     font-weight: 700;
     letter-spacing: 0.5px;
@@ -268,7 +271,7 @@ header {
 }
 
 /* Formulário dentro do dialog */
-#form-endereco {
+#form-endereco, #form-editar-endereco {
     display: flex;
     flex-direction: column;
     gap: 15px;
@@ -298,7 +301,9 @@ header {
 
 /* Campos de entrada */
 #endereco-modal input,
-#endereco-modal select {
+#endereco-modal select,
+#editar-endereco-modal input,
+#editar-endereco-modal select {
     padding: 12px;
     border: 1px solid #ddd;
     border-radius: 4px;
@@ -316,7 +321,8 @@ header {
     margin-top: 10px;
 }
 
-#btn-cancelar {
+#btn-cancelar,
+#btn-cancelar-edicao {
     padding: 12px;
     background-color: #f44336;
     color: white;
@@ -328,11 +334,13 @@ header {
     transition: background-color 0.3s;
 }
 
-#btn-cancelar:hover {
+#btn-cancelar:hover
+#btn-cancelar-edicao:hover {
     background-color: #d32f2f;
 }
 
-#form-endereco button[type="submit"] {
+#form-endereco button[type="submit"],
+#form-editar-endereco button[type="submit"] {
     padding: 12px;
     background-color: #4CAF50;
     color: white;
@@ -344,7 +352,8 @@ header {
     transition: background-color 0.3s;
 }
 
-#form-endereco button[type="submit"]:hover {
+#form-endereco button[type="submit"]:hover,
+#form-editar-endereco button[type="submit"]:hover {
     background-color: #45a049;
 }
 

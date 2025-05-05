@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const form = document.getElementById('form-endereco');
     const btnNovoEndereco = document.getElementById('btn-novo-endereco');
     const btnCancelar = document.getElementById('btn-cancelar');
+    const editarDialog = document.getElementById('editar-endereco-modal');
 
     await carregarEnderecos();
 
@@ -86,6 +87,16 @@ document.addEventListener('DOMContentLoaded', async () => {
                     </div>
                 `).join('');
 
+            document.querySelectorAll('.edit-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const enderecoId = e.target.getAttribute('data-id');
+                    const enderecos = JSON.parse(localStorage.getItem('enderecosCache') || '[]');
+    
+                    abrirDialog(enderecoId, enderecos);
+                });
+            });
+        
+
             document.querySelectorAll('.delete-btn').forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     const enderecoId = e.target.getAttribute('data-id');
@@ -101,6 +112,76 @@ document.addEventListener('DOMContentLoaded', async () => {
             listaEnderecos.innerHTML = `<div class="error">Erro ao carregar endereços: ${error.message}</div>`;
         }
     }
+
+    async function abrirDialog(enderecoId, enderecos) {
+        const endereco = enderecos.find(e => e.id == enderecoId);
+        console.log(endereco);
+
+        if (!endereco) return;
+
+        document.getElementById('editar-id').value = endereco.id;
+        document.getElementById('editar-cep').value = endereco.cep;
+        document.getElementById('editar-numero').value = endereco.numero;
+        document.getElementById('editar-logradouro').value = endereco.logradouro;
+        document.getElementById('editar-complemento').value = endereco.complemento;
+        document.getElementById('editar-cidade').value = endereco.cidade;
+        document.getElementById('editar-estado').value = endereco.estado;
+
+        editarDialog.showModal();
+    }
+
+    document.getElementById('btn-cancelar-edicao').addEventListener('click', () => {
+        editarDialog.close();
+    });
+
+    document.getElementById('form-editar-endereco').addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const enderecoId = document.getElementById('editar-id').value;
+
+        const enderecoData = {
+            cep: document.getElementById('editar-cep').value,
+            numero: document.getElementById('editar-numero').value,
+            logradouro: document.getElementById('editar-logradouro').value,
+            complemento: document.getElementById('editar-complemento').value,
+            cidade: document.getElementById('editar-cidade').value,
+            estado: document.getElementById('editar-estado').value,
+        };
+
+        try {
+            const response = await fetch(`http://localhost:8000/enderecos/editar/${enderecoId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(enderecoData)
+            });
+
+            console.log(enderecoData);
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.detail || "Erro ao editar endereço.");
+            }
+
+            const enderecoEditado = await response.json();
+            const enderecosCache = JSON.parse(localStorage.getItem('enderecosCache') || []);
+            const index = enderecosCache.findIndex(e => e.id == enderecoId);
+
+            if (index !== -1) {
+                enderecosCache[index] = enderecoEditado;
+                localStorage.setItem('enderecosCache', JSON.stringify(enderecosCache));
+            }
+
+            await carregarEnderecos();
+            editarDialog.close();
+            alert('Endereço atualizado com sucesso.');
+        } catch (error) {
+            console.error("erro ao editar endereco: ", error);
+            alert(`Erro ao editar endereço: ${error.message}`);
+        }
+    });
 
     async function deletarEndereco(enderecoId) {
         if (!confirm("Tem certeza que deseja excluir este endereço?")) {
