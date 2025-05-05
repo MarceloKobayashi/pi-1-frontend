@@ -126,8 +126,8 @@ document.addEventListener("DOMContentLoaded", async () => {
             
                 grid.appendChild(card);
             });
-        container.appendChild(section);
-    }
+            container.appendChild(section);
+        }
 
         document.querySelectorAll('.btn-editar').forEach(btn => {
             btn.addEventListener('click', (e) => {

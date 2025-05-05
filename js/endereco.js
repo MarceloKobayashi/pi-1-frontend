@@ -81,14 +81,66 @@ document.addEventListener('DOMContentLoaded', async () => {
                     <p>${endereco.cidade} - ${endereco.estado}</p>
                     <p>CEP: ${endereco.cep}</p>
                     <div class="endereco-actions">
-                        <button class="action-btn edit-btn">Editar</button>
-                        <button class="action-btn delete-btn">Excluir</button>
+                        <button class="action-btn edit-btn" data-id="${endereco.id}">Editar</button>
+                        <button class="action-btn delete-btn" data-id="${endereco.id}">Excluir</button>
                     </div>
                 `).join('');
+
+            document.querySelectorAll('.delete-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const enderecoId = e.target.getAttribute('data-id');
+    
+                    deletarEndereco(enderecoId);
+                });
+            });
+
+            localStorage.setItem('enderecosCache', JSON.stringify(enderecos));
 
         } catch (error) {
             console.error("Erro: ", error);
             listaEnderecos.innerHTML = `<div class="error">Erro ao carregar endereços: ${error.message}</div>`;
+        }
+    }
+
+    async function deletarEndereco(enderecoId) {
+        if (!confirm("Tem certeza que deseja excluir este endereço?")) {
+            return;
+        }
+
+        console.log(enderecoId);
+
+        try {
+            const response = await fetch(`http://localhost:8000/enderecos/deletar/${enderecoId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error("Erro ao excluir endereço.");
+            }
+
+            const card = document.querySelector(`.endereco-card[data-id="${enderecoId}"]`);
+            if (card) {
+                card.remove();
+            }
+
+            const enderecosAtualizados = JSON.parse(localStorage.getItem('enderecosCache') || '[]').filter(e => e.id != enderecoId);
+            localStorage.setItem('enderecosCache', JSON.stringify(enderecosAtualizados));
+
+            const container = document.getElementById('lista-enderecos');
+            if (container.children.length === 0) {
+                container.innerHTML = '<div class="empty">Nenhum endereço cadastrado. <button id="btn-novo-endereco" class="primary">Cadastre seu primeiro endereço</button></div>';
+            }
+
+            alert("Endereço deletado com sucesso");
+            carregarEnderecos();
+
+        } catch (error) {
+            console.error("Erro: ". error);
+            alert(`Erro ao excluir endereço: ${error.message}`);
         }
     }
 
