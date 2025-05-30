@@ -135,7 +135,56 @@ document.addEventListener('DOMContentLoaded', async () => {
                 return;
             }
 
-            alert("Pedido enviado.");
+            if (!metodoPagamento) {
+                alert("Selecione um método de pagamento.");
+                return;
+            }
+
+            const response = await fetch('http://localhost:8000/carrinho/finalizar', {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.detail || "Erro ao finalizar compra.");
+            }
+
+            const pedidoId = 'pedido-' + Date.now();
+            const modal = document.createElement('dialog');
+            modal.classList.add('pix-dialog');
+            const qrURL = 'pedidos.html';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <h2>Pagamento via PIX</h2>
+                    <p>Escaneie esse QR Code com seu celular</p>
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(qrURL)}" alt="QR Code PIX">
+                    <p>Ou <a href="pedidos.html">clique aqui</a> para abrir no navegador</p>
+                    <button id="closeModal">Fechar</button>
+                </div>
+            `;
+
+            document.body.appendChild(modal);
+            modal.showModal();
+
+            const checkPagamento = setInterval(async () => {
+                const response = await fetch(`/api/verificar-pagamento?pedido=${pedidoId}`);
+                const data = await response.json();
+
+                if (data.status == 'pago') {
+                    clearInterval(checkPagamento);
+                    modal.remove();
+                    window.location.ref = 'pedidos.html';
+                }
+            }, 60000);
+
+            document.getElementById('closeModal').addEventListener('click', () => {
+                alert("Erro no pagamento.");
+                return;
+            });
+
         } catch (error) {
             console.error("Erro: ", error);
             alert(`Erro ao finalizar a compra: ${error.message}`);
