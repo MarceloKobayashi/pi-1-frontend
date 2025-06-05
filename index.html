@@ -9,9 +9,12 @@
 </head>
 <body>
     <header>
-        <div class="logo">Minha Loja</div>
+        <div class="logo">Varejo Online</div>
         <div class="endereco">
             <a href="/html/endereco.html" class="btn-endereco">Endereço</a>
+        </div>
+        <div class="avaliacao">
+            <a href="/html/avaliacao.html" class="btn-avaliacao">Avaliações</a>
         </div>
         <div class="barra-pesquisa-container">
             <div class="barra-pesquisa-wrapper">
@@ -38,7 +41,10 @@
             <a href="/html/carrinho.html" class="btn-header">
                 <i class="bi bi-cart3"></i>
             </a>
-            
+        </div>
+
+        <div class="endereco">
+            <a href="html/pedidos.html" class="btn-endereco">Pedidos</a>
         </div>
     </header>
 
@@ -65,6 +71,12 @@
                     <h2 id="dialog-nome"></h2>
                     <span class="vendedor-info-dialog" id="dialog-vendedor"></span>
                     <p class="produto-descricao-dialog" id="dialog-descricao"></p>
+
+                    <div id="avaliacoes-container" class="avaliacoes-scroll">
+                        <h4>Avaliações</h4>
+                        <div id="lista-avaliacoes"></div>
+                    </div>
+
                     <div class="produto-quantidade-dialog">
                         <button class="quantidade-btn" id="decrementar">-</button>
                         <span id="quantidade-value">1</span>

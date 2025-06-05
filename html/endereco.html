@@ -5,13 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Endereço</title>
     <link rel="stylesheet" href="../css/endereco.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 </head>
 <body>
     <header>
-        <a href="../index.html">Home</a>
-        <h1>Endereços</h1>
+        <div class="logo"><a href="../index.html">Varejo Online</a></div>
+        <div class="endereco">
+            <a href="endereco.html" class="btn-endereco">Endereço</a>
+        </div>
         <button id="btn-novo-endereco" class="primary">Novo Endereço</button>
+        <div class="avaliacao">
+            <a href="avaliacao.html" class="btn-avaliacao">Avaliações</a>
+        </div>
+        <div class="barra-pesquisa-container">
+            <div class="barra-pesquisa-wrapper">
+            </div>
+
+            <div class="historico-busca" id="historico-busca" style="display: none;">
+            </div>
+        </div>
+
+        <div class="header-buttons">
+            <a href="loginCadastro.html" class="btn-header" id="login-button">Login</a>
+            <a href="carrinho.html" class="btn-header">
+                <i class="bi bi-cart3"></i>
+            </a>
+            <a href="pedidos.html" class="btn-endereco">Pedidos</a>
+        </div>
     </header>
+
+    <div><h1 style="text-align: center;">Endereços</h1></div>
 
     <main>
         <div id="lista-enderecos" class="enderecos-container">

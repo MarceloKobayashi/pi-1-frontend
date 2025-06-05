@@ -179,7 +179,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         document.getElementById('dialog-preco').textContent = `R$ ${precoTotal.toFixed(2).replace('.', ',')}`;
     }
 
-    produtosContainer.addEventListener('click', (e) => {
+    produtosContainer.addEventListener('click', async (e) => {
         const card = e.target.closest('.produto-card');
         if (card) {
             const produtoId = parseInt(card.querySelector('.btn-adicionar-carrinho').getAttribute('data-id'));
@@ -217,6 +217,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             
             atualizarPrecoTotal();
             carregarImagensDialog();
+            await carregarAvaliacoes(produtoId);
             
             document.getElementById('produto-dialog').showModal();
         }
@@ -430,5 +431,49 @@ document.addEventListener("DOMContentLoaded", async () => {
             historicoBusca.style.display = 'none'
         }
     });
+
+    async function carregarAvaliacoes(produtoId) {
+        const container = document.getElementById("lista-avaliacoes");
+        container.innerHTML = '<p>Carregando avaliações...</p>';
+
+        try {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                alert("Faça login para adicionar ao produto.")
+                return;
+            }
+
+            const response = await fetch(`http://localhost:8000/avaliacao/listar/${produtoId}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            if (!response.ok) {
+                throw new Error("Erro ao carregar avaliações.");
+            }
+
+            const avaliacoes = await response.json();
+            if (avaliacoes.length === 0) {
+                container.innerHTML = '<p>Este produto ainda não possui avaliações.</p>';
+                return;
+            }
+
+            container.innerHTML = '';
+            avaliacoes.forEach(av => {
+                const item = document.createElement('div');
+                item.className = 'avaliacao-item';
+                item.innerHTML = `
+                    <p><strong>Usuário #${av.fk_ava_usuario_id}</strong></p>
+                    <p>${av.comentario || "Sem comentário."}</p>
+                    <p><small>Nota: ${av.nota} | Data: ${new Date (av.data_avaliacao).toLocaleDateString()}</small></p>
+                `;
+
+                container.appendChild(item);
+            });
+        } catch (e) {
+            console.error("Erro ao buscar avaliações: ", e);
+            container.innerHTML = '<p>Erro ao carregar avaliações.</p>';
+        }
+    }
 });
 

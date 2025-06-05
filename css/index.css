@@ -67,7 +67,7 @@ header {
     min-width: 150px;
 }
 
-.btn-filtro, .btn-header, .btn-endereco {
+.btn-filtro, .btn-header, .btn-endereco, .btn-avaliacao {
     padding: 10px 15px;
     background-color: #2196F3;
     color: white;
@@ -79,7 +79,7 @@ header {
     transition: background-color 0.3s;
 }
 
-.btn-filtro:hover, .btn-header:hover, .btn-endereco:hover {
+.btn-filtro:hover, .btn-header:hover, .btn-endereco:hover, .btn-avaliacao:hover {
     background-color: #0b7dda;
 }
 
@@ -608,8 +608,8 @@ header {
 }
 
 .quantidade-btn {
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     border-radius: 8px;
     border: none;
     background-color: #4CAF50; /* Verde padrão */
@@ -656,9 +656,30 @@ header {
     text-align: center;
     font-weight: bold;
     font-size: 18px;
-    padding: 8px 12px;
+    padding: 4px 12px;
     border: 2px solid #e0e0e0;
     border-radius: 8px;
     background-color: #f9f9f9;
     margin: 0 5px;
+}
+
+
+.avaliacoes-scroll {
+    max-height: 200px;
+    overflow-y: auto;
+    background-color: #f5f5f5;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+.avaliacao-item {
+    border-bottom: 1px solid #ddd;
+    padding: 5px 0;
+    font-size: 14px;
+}
+
+.avaliacao-item:last-child {
+    border-bottom: none;
 }

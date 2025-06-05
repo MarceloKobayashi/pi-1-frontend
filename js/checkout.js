@@ -140,49 +140,69 @@ document.addEventListener('DOMContentLoaded', async () => {
                 return;
             }
 
-            const response = await fetch('http://localhost:8000/carrinho/finalizar', {
-                method: 'PUT',
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.detail || "Erro ao finalizar compra.");
-            }
-
             const pedidoId = 'pedido-' + Date.now();
-            const modal = document.createElement('dialog');
-            modal.classList.add('pix-dialog');
+            const pixModal = document.createElement('dialog');
+            pixModal.classList.add('pix-dialog');
             const qrURL = 'pedidos.html';
-            modal.innerHTML = `
+            pixModal.innerHTML = `
                 <div class="modal-content">
                     <h2>Pagamento via PIX</h2>
                     <p>Escaneie esse QR Code com seu celular</p>
                     <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(qrURL)}" alt="QR Code PIX">
                     <p>Ou <a href="pedidos.html">clique aqui</a> para abrir no navegador</p>
-                    <button id="closeModal">Fechar</button>
+                    <button id="confirmPayment">Confirmar Pagamento</button>
+                    <button id="cancelPayment">Cancelar</button>
                 </div>
             `;
 
-            document.body.appendChild(modal);
-            modal.showModal();
+            document.body.appendChild(pixModal);
+            pixModal.showModal();
 
-            const checkPagamento = setInterval(async () => {
-                const response = await fetch(`/api/verificar-pagamento?pedido=${pedidoId}`);
-                const data = await response.json();
+            const successModal = document.createElement('dialog');
+            successModal.classList.add('success-dialog');
 
-                if (data.status == 'pago') {
-                    clearInterval(checkPagamento);
-                    modal.remove();
-                    window.location.ref = 'pedidos.html';
+            document.getElementById('confirmPayment').addEventListener('click', async () => {
+                try {
+                    const response = await fetch('http://localhost:8000/carrinho/finalizar', {
+                        method: 'PUT',
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        }
+                    });
+
+                    if (!response.ok) {
+                        const errorData = await response.json();
+                        throw new Error(errorData.detail || "Erro ao finalizar compra.");
+                    }
+
+                    pixModal.close();
+                    pixModal.remove();
+
+                    successModal.innerHTML = `
+                        <div class="modal-content">
+                            <h2>Pagamento Aprovado!</h2>
+                            <p>Seu pedido #${pedidoId} foi concluído com sucesso.</p>
+                            <button onclick="window.location.href='pedidos.html'">Ver Meus Pedidos</button>
+                        </div>
+                    `;
+
+                    document.body.appendChild(successModal);
+                    successModal.showModal();
+
+                    successModal.addEventListener('close', () => {
+                        window.location.href = 'pedidos.html';
+                    });
+
+                } catch (error) {
+                    console.error("Erro ao finalizar compra: ", error);
+                    pixModal.close();
+                    alert(`Erro ao finalizar a compra: ${error.message}`);
                 }
-            }, 60000);
+            });
 
-            document.getElementById('closeModal').addEventListener('click', () => {
-                alert("Erro no pagamento.");
-                return;
+            document.getElementById('cancelPayment').addEventListener('click', () => {
+                pixModal.close();
+                pixModal.remove();
             });
 
         } catch (error) {

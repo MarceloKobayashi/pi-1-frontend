@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap');
+
 * {
     box-sizing: border-box;
     font-family: 'Roboto', sans-serif;
@@ -10,32 +12,12 @@ body {
     color: #333;
 }
 
-header {
-    background-color: #fff;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    padding: 15px 0;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-}
-
 .container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
 }
 
-.header-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.logo {
-    font-size: 24px;
-    font-weight: bold;
-    color: #2196F3;
-}
 
 .user-actions a {
     margin-left: 15px;
@@ -192,4 +174,74 @@ header {
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
+}
+
+header {
+    background-color: #fff;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto 30px;
+    border-radius: 8px;
+    position: sticky;
+    top: 20px; /* Mesmo valor do padding-top do body */
+    z-index: 100;
+}
+
+
+.logo {
+    color: #333;
+    font-weight: 700;
+    font-size: 24px;
+    letter-spacing: 0.5px;
+    margin: 0;
+}
+
+.logo a {
+    text-decoration: none;
+}
+
+.btn-home, .btn-filtro, .btn-header, .btn-endereco, .btn-avaliacao {
+    padding: 10px 15px;
+    background-color: #2196F3;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 700;
+    transition: background-color 0.3s;
+}
+
+.btn-home, .btn-filtro:hover, .btn-header:hover, .btn-endereco:hover, .btn-avaliacao:hover {
+    background-color: #0b7dda;
+}
+
+.header-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-header:first-child {
+    background-color: #4CAF50;
+}
+
+.btn-header:first-child:hover {
+    background-color: #45a049;
+}
+
+/* Estilos responsivos para o header */
+@media (max-width: 1024px) {
+    header {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .header-buttons {
+        width: 100%;
+        justify-content: space-between;
+    }
 }
